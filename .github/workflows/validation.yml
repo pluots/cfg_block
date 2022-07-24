@@ -85,3 +85,5 @@ jobs:
         with:
           command: doc
       - uses: ammaraskar/sphinx-action@master
+        with:
+          docs-folder: "."
