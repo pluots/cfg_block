@@ -1,8 +1,9 @@
 # cfg_block
 
 A simple library for applying procedural macros to a block, for easier `const`
-values and more readable code. Here's A simple example for defining variables
-based on platform:
+values and more readable code. Grab the docs here <https://docs.rs/cfg_block>.
+
+Here's a simple example for defining variables based on platform:
 
 ```rs
 use cfg_block::cfg_block;

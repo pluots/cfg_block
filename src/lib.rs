@@ -1,9 +1,9 @@
 //! A simple library for applying procedural macros to a block. Simple example:
-//! 
+//!
 //! ```
 //! use cfg_block::cfg_block;
-//! 
-//! cfg_block!{
+//!
+//! cfg_block! {
 //!     if #[cfg(mips)] {
 //!         const STR_A: &str = "where did you get this processor";
 //!         const STR_B: &str = "mips just makes a good passing doctest";
@@ -12,11 +12,11 @@
 //!         const STR_B: &str = "better!";
 //!     }
 //! }
-//! 
+//!
 //! assert_eq!(STR_A, "good!");
 //! assert_eq!(STR_B, "better!");
 //! ```
-//! 
+//!
 //! Most of the documentation is contained at [`cfg_block`], please see there
 //! for more details.
 
@@ -26,22 +26,20 @@
     clippy::cargo,
     clippy::nursery,
     clippy::str_to_string,
-    clippy::missing_inline_in_public_items,
+    clippy::missing_inline_in_public_items
 )]
-
-
 
 /// Allow applying inner procedural macros to a `{}` block, which helps a lot
 /// with platform-based `const` values.
-/// 
+///
 /// # Examples
-/// 
-/// Basic example handling differnt 
-/// 
+///
+/// Basic example handling differnt
+///
 /// ```
 /// use cfg_block::cfg_block;
-/// 
-/// cfg_block!{
+///
+/// cfg_block! {
 ///     #[cfg(target_family = "unix")] {
 ///         const PLATFORM: &str = "posix !";
 ///         const MY_NUMBER: u8 = 5;
@@ -55,18 +53,18 @@
 ///         const MY_NUMBER: i32 = -5;
 ///     }
 /// }
-/// 
+///
 /// // Assuming this test runs on linux/macos...
 /// assert_eq!(PLATFORM, "posix !");
 /// assert_eq!(MY_NUMBER, 5);
 /// ```
-/// 
+///
 /// Or, with the if/else syntax (only works for `cfg` macros):
-/// 
+///
 /// ```
 /// use cfg_block::cfg_block;
-/// 
-/// cfg_block!{
+///
+/// cfg_block! {
 ///     if #[cfg(mips)] {
 ///         const STR_A: &str = "where did you get this processor";
 ///         const STR_B: &str = "mips just makes a good passing doctest";
@@ -75,27 +73,27 @@
 ///         const STR_B: &str = "better!";
 ///     }
 /// }
-/// 
+///
 /// assert_eq!(STR_A, "good!");
 /// assert_eq!(STR_B, "better!");
 /// ```
-/// 
-/// Currently, if/else statements need to be in a separate `cfg_block!{}` from
+///
+/// Currently, if/else statements need to be in a separate `cfg_block! {}` from
 /// options that do not use if/else.
-/// 
+///
 /// It is also possible to put anything that rust considers an `item` inside the
 /// block. Note that this does not include `let` bindings.
-/// 
+///
 /// ```
 /// use cfg_block::cfg_block;
-/// 
-/// cfg_block!{
+///
+/// cfg_block! {
 ///     if #[cfg(mips)] {
 ///         const STR_A: &str = "where did you get this processor";
 ///     } else {
 ///         const STR_A: &str = "good!";
 ///     }
-/// 
+///
 ///     if #[cfg(not(mips))] {
 ///         assert_eq!(STR_A, "good!");
 ///     } else {}
@@ -129,7 +127,7 @@ mod tests {
     //! testing on a mips processor
     use super::*;
 
-    cfg_block!{
+    cfg_block! {
         #[cfg(not(mips))] {
             const SINGLE_A: &str = "something a";
             const SINGLE_B: &str = "something b";
@@ -142,8 +140,7 @@ mod tests {
         assert_eq!(SINGLE_B, "something b");
     }
 
-
-    cfg_block!{
+    cfg_block! {
         if #[cfg(mips)] {
             const ELSE_A: &str = "nothing a";
             const ELSE_B: &str = "nothing b";
@@ -159,10 +156,9 @@ mod tests {
         assert_eq!(ELSE_B, "something b");
     }
 
-
     #[test]
     fn inside_item_validation() {
-        cfg_block!{
+        cfg_block! {
             if #[cfg(mips)] {
                 assert_eq!(ELSE_A, "nothing a");
                 assert_eq!(ELSE_B, "nothing b");
@@ -177,7 +173,7 @@ mod tests {
     // #[test]
     // fn inside_validation() {
     //     // Test within a function block
-    //     cfg_block!{
+    //     cfg_block! {
     //         #[cfg(mips)] {
     //             let inside_a: &str = "nothing a";
     //             let inside_b: &str = "nothing b";
@@ -185,7 +181,7 @@ mod tests {
     //             let inside_a: &str = "something a";
     //             let inside_b: &str = "something b";
     //         }
-            
+
     //     }
     //     assert_eq!(inside_a, "something a");
     //     assert_eq!(inside_b, "something b");
