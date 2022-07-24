@@ -45,7 +45,7 @@
 ///         const MY_NUMBER: u8 = 5;
 ///     }
 ///     #[cfg(target_family = "windows")] {
-///         const PLATFORM: &str = "window !";
+///         const PLATFORM: &str = "windows !";
 ///         const MY_NUMBER: u16 = 20;
 ///     }
 ///     #[cfg(target_family = "wasm")] {
@@ -54,9 +54,13 @@
 ///     }
 /// }
 ///
-/// // Assuming this test runs on linux/macos...
-/// assert_eq!(PLATFORM, "posix !");
-/// assert_eq!(MY_NUMBER, 5);
+/// // This is a proof of concept
+/// match PLATFORM {
+///     "posix !" => assert_eq!(MY_NUMBER as i32, 5),
+///     "windows !" => assert_eq!(MY_NUMBER as i32, 20),
+///     "web !" => assert_eq!(MY_NUMBER as i32, -5),
+///     &_ => panic!(),
+/// }
 /// ```
 ///
 /// Or, with the if/else syntax (only works for `cfg` macros):
