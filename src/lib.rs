@@ -1,6 +1,8 @@
 //! A simple library for applying procedural macros to a block. Simple example:
 //! 
 //! ```
+//! use cfg_block::cfg_block;
+//! 
 //! cfg_block!{
 //!     if #[cfg(mips)] {
 //!         const STR_A: &str = "where did you get this processor";
@@ -11,17 +13,26 @@
 //!     }
 //! }
 //! 
-//! assert_eq(STR_A, "good!");
-//! assert_eq(STR_B, "better!");
+//! assert_eq!(STR_A, "good!");
+//! assert_eq!(STR_B, "better!");
 //! ```
 //! 
 //! Most of the documentation is contained at [`cfg_block`], please see there
 //! for more details.
 
+// Strong clippy config
+#![warn(
+    clippy::pedantic,
+    clippy::cargo,
+    clippy::nursery,
+    clippy::str_to_string,
+    clippy::missing_inline_in_public_items,
+)]
 
-/// Allow applying inner procedural macros to a `{}` block
-/// 
-/// This is 
+
+
+/// Allow applying inner procedural macros to a `{}` block, which helps a lot
+/// with platform-based `const` values.
 /// 
 /// # Examples
 /// 
@@ -65,12 +76,12 @@
 ///     }
 /// }
 /// 
-/// assert_eq(STR_A, "good!");
-/// assert_eq(STR_B, "better!");
+/// assert_eq!(STR_A, "good!");
+/// assert_eq!(STR_B, "better!");
 /// ```
 /// 
 /// Currently, if/else statements need to be in a separate `cfg_block!{}` from
-/// the default syntax.
+/// options that do not use if/else.
 /// 
 /// It is also possible to put anything that rust considers an `item` inside the
 /// block. Note that this does not include `let` bindings.
