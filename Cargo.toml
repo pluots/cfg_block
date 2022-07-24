@@ -1,0 +1,54 @@
+[package]
+name = "cfg_block"
+version = "0.1.0"
+edition = "2021"
+authors = ["Trevor Gross <tmgross@umich.edu>"]
+description = "Simple crate to allow using #[cfg(...)] and other macros on blocks"
+readme = "README.md"
+license-file = "LICENSE"
+
+documentation = "https://docs.rs/cfg_block"
+repository = "https://github.com/pluots/cfg_block"
+keywords = ["cfg", "block", "const"]
+categories = ["development-tools"]
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+# Can't run replacements at workspace root. Need to use this "hacky" sort of way.
+[[package.metadata.release.pre-release-replacements]]
+file = "CHANGELOG.md"
+search = "Unreleased"
+replace = "{{version}}"
+
+[[package.metadata.release.pre-release-replacements]]
+file = "CHANGELOG.md"
+search = "\\.\\.\\.HEAD"
+replace = "...{{tag_name}}"
+exactly = 1
+
+[[package.metadata.release.pre-release-replacements]]
+file = "CHANGELOG.md"
+search = "ReleaseDate"
+replace = "{{date}}"
+
+[[package.metadata.release.pre-release-replacements]]
+file = "CHANGELOG.md"
+search = "<!-- next-header -->"
+replace = """\
+  <!-- next-header -->\n\n\
+  ## [Unreleased] - ReleaseDate\n\n\
+  ### Added\n\n\
+  ### Changed\n\n\
+  ### Removed\n\n\
+  """
+exactly = 1
+
+[[package.metadata.release.pre-release-replacements]]
+file = "CHANGELOG.md"
+search = "<!-- next-url -->"
+replace = """\
+  <!-- next-url -->\n\
+  [Unreleased]: https://github.com/pluots/cfg_block/compare/{{tag_name}}...HEAD\
+  """
+exactly = 1
