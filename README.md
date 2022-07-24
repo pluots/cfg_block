@@ -59,3 +59,6 @@ Link to `crates.io` page: <https://crates.io/crates/cfg_block>
 Get the docs here: <https://docs.rs/cfg_block>
 
 Source repository: <https://github.com/pluots/cfg_block>
+
+If you have any improvements or ideas, feel free to bring them up on the Github
+page!
