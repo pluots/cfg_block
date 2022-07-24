@@ -15,7 +15,6 @@ categories = ["development-tools"]
 [badges]
 maintenance = { status = "actively-developed" }
 
-# Can't run replacements at workspace root. Need to use this "hacky" sort of way.
 [[package.metadata.release.pre-release-replacements]]
 file = "CHANGELOG.md"
 search = "Unreleased"
