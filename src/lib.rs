@@ -54,6 +54,7 @@
 ///     }
 /// }
 ///
+///
 /// // This is a proof of concept
 /// match PLATFORM {
 ///     "posix !" => assert_eq!(MY_NUMBER as i32, 5),
@@ -105,23 +106,73 @@
 /// ```
 #[macro_export]
 macro_rules! cfg_block {
-    ($( if #[cfg($meta:meta)] {$($item:item)*} else {$($item_f:item)*} )*) => {
+    // Note: we might be able to combine the `else` statement using TT munchers
+
+    // Rule for things with an else statement
+    // Match e.g.
+    // #[cfg(something)] {
+    //   item1;
+    //   item2;
+    // } else {
+    //     item3;
+    //     item4;
+    // }
+    //
+    // Replace with
+    // #[cfg(something)]
+    // item1;
+    // #[cfg(something)]
+    // item2;
+    // #[cfg(not(something))]
+    // item3;
+    // #[cfg(not(something))]
+    // item4;
+    (
         $(
-        $(
-            #[cfg($meta)]
-            $item
+            if #[cfg($meta:meta)] {
+                $($item:item)*
+            } else {
+                $($item_f:item)*
+            }
         )*
+    ) => {
         $(
-            #[cfg(not($meta))]
-            $item_f
-        )*
+            $(
+                #[cfg($meta)]
+                $item
+            )*
+            $(
+                #[cfg(not($meta))]
+                $item_f
+            )*
         )*
     };
-    ($( #[$meta:meta] {$($item:item)*} )*) => {
-        $($(
-            #[$meta]
-            $item
-        )*)*
+
+    // Rule for things without an else statement
+    // Match e.g.
+    // #[something] {
+    //   item1;
+    //   item2;
+    // }
+    //
+    // Replace with
+    // #[something]
+    // item1;
+    // #[something]
+    // item2;
+    (
+        $(
+            #[$meta:meta] {
+                $( $item:item )*
+            }
+        )*
+    ) => {
+        $(
+            $(
+                #[$meta]
+                $item
+            )*
+        )*
     }
 }
 
