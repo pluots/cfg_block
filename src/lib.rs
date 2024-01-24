@@ -1,3 +1,4 @@
+#![no_std]
 //! A simple library for applying procedural macros to a block. Simple example:
 //!
 //! ```
