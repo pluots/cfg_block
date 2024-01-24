@@ -5,6 +5,7 @@
 ## [Unreleased] - ReleaseDate
 
 ### Added
+- marked as no_std
 
 ### Changed
 
